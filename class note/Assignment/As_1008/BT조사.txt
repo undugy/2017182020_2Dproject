@@ -1,0 +1,60 @@
+FSM(finite State Machines)
+FSM: 상태와 전이로 구성
+-상태: 동시에 실행되는 행동의 집합
+행동의 예) 애니메이션, 사운드, 특정시간 대기
+-전이: 조건을 포함하고 조건 충족 시 상태가 다른 상태로 이동
+-게임에서 FSM: 애니메이션 상태 전환에 많이 사용
+-유니티의 메카님 스테이트 머신을 이용해 애니메이션 전환 로직을 쉽게 작성가능 비주얼 디버깅이 쉽다는 장점을 가지고 있다.
+하지만 노드가 많아지면 매우 복잡해진다.
+계층적 유한상태 기계(HFSM)
+HFSM:복잡해졌을 때 상태를 계층화(혹은 그룹화) 하기 위해 생긴 개념
+-FSM은 다른 문맥을 가진 로직을 재사용 할 수 없다. 하지만 HFSM은 FSM을 그룹화하고 계층화하여
+특정문맥을 가진 상태를 재사용 할수있게 해준다.
+-FSM처럼 현재의 문맥(상위 상태)을 파악 하기도 쉽다.
+-최근까지 AI에서 많이 사용
+-문제점 : HFSM도 어느정도 확장성을 가지지만 하위상태의 모듈화 기능을 제공하지 않는다.
+->특정상태에서 전이되어야 하기 때문이다.
+ex) 전투상태->걷기상태 추가, 추적 상태->걷기상태 추가 각 문맥상의 전환조건은 다르지만 여러번 재작성
+해야한다.
+BT
+HFSM처럼 재작성하지 않아도 다른 목적이나 상황에 따라 상태를 재사용 할수있도록 하기 위해 생겨났다.
+-특징: 로직을 캡슐화하여 상태의 모듈성 증가시킨다.
+-차이점 : HFSM도 내포된 하위 상태를 만들수 있지만 BT처럼 전이라는 것이 존재하지 않는다. 
+그래서 상태는 그자체로서 존재할수있다.
+-작동원리 : 스택(stack)자료구조 이용->노드(태스크)들이 동작하는 방식을 이해하는 기반
+-태스크(task): BT는 태스크의 집합으로 구성, FSM,HFSM은 행동집합=상태, 상태 이동의 방향+조건을지정=전이,
+하지만 BT에서는 모든것을 노드(태스크)로 표현한다.
+-태스크의 실행순서: 위에서 아래로,왼쪽에서 오른쪽으로 실행한다.
+-태스크의 종류: 크게 Composite, Decorator, Condition, Action로 나뉜다.
+  
+1.Action Task: 실제 행동을 표현한 단말노드 항상 true나false를 반환하게 되어있다.
+-메서드: Action.OnStart(), Action.OnUpdate(), Action.OnEnd()-> 업데이트에서 true나false를 반환하면
+작업을 끝낸다.
+-실행과정: 스택에 처음 올라갈때 OnStart()불리면 true나false를 반환하지 않으면 계속해서 OnUpdate()가 불린다.
+ true나false가 불리면 스택에서 빠져나가면서 OnEnd()불린다.
+-다른 구현: UE4,ParadoxNotations의 NodeCanvas->EndAtion()매서드를 명시적으로 호출해 Action을 끝냄
+               BehaviorDesigner-> true,false,running과 같은 반환값으로 Action이 끝났는지 판단
+-비교:FSM의 행동 집합으로써 상태와 비슷하다.
+2.Composite Task:복합 태스크로 여러개의 자식으로 구성된 태스크 Select,Sequence를 자주사용한다.
+-용도:node(태스크),flow를 제어하는것
+-SelectComposite: 자식노드가 true를 반환 할때까지 자식노드를 실행한다.
+-SequenceComposite:자식노드가 false를 반환 할때까지 자식노드를 실행한다.
+3.Conditinonal Aborts (조건부 취소):외부에서 강제적으로 Action을 실행중단 할때 사용한다.
+Action 은 일반적으로 내부에서 추적이 완료되었는지 여부를 판단하지만 예외적인 조건판단과
+다른 Action에 종속성을 만들지 않고 취소할 수 있게 해준다. 다른 구현에서는 평가를 재활성 한다고 한다.
+-조건부 취소는 실행 흐름에 영향을 주게 되므로 Composite 에 기능이 내장되어 있다. 
+어떤 변수를 계속 체크하고 있다가 변수의 값이 바뀌게 되면 지금의 실행 흐름을 취소시키고 자신의 노드로부터 재평가를
+ 한다.
+-보통Self, Lower Priority, Both로 이루어져있다.
+Self: 자신의 하위에 있는 태스크를 취소시킨다.
+Lower Priority:자신의 오른쪽에 있는 이웃 노드의 흐름을 취소시킨다.
+Both:Self+Lower Priority이다.
+ex)계속해서 실행되는 어떤 Action 이 있다고 가정하면 아래 BT 에서는 "B" Action 을 실행한 후에 "Run Forever" 라는 Action 으로 제어가 넘어 갔기 때문에, 
+"B" Action 은 앞으로 절대로 평가되지 않는다. 그런데 특정 조건이 만족되면 다시 Sequence Composite 를 평가하고 싶다면 Sequencer 노드를 dynamic 으로 변경하고, 하위에 Condition 노드를 추가해 Conditional Aborts 상황을 만들 수 있다. 
+4.Decoration task: 조건을 의미하고 하나의 자식만 가질 수 있는데 조건 만족시 자식을 실행,조건을 만족하지 못하면
+false를 반환한다. Decoration이 지정하는 조건을 만족했을 경우의 반환결과는 자식의 반환결과에 의존한다.
+-자주 사용하는 Decoration: Probability, TimeOut, CheckEvent
+BT와 Character Controller(SM들)의 차이점: Character Controller도 어느정도 확장성을 가지지만 위의 예시처럼 하위상태의 모듈화 기능을 제공하지 않는다. 하지만 BT는
+로직을 캡슐화하여 상태의 모듈성 증가시킬 수 있고 전이라는 것을 이용해 상태는 그자체로 존재 할 수 있다. 따라서 다른 목적이나 상황에 따라 상태를 재사용 할수있다.
+개인적인 생각: Character Controller의 비해 모듈성이 높아 가독성이 더 좋은것 같고 상황에 따라 상태를 재사용 할 수 있기 때문에 BT를 사용하는게 더 편할것 같다는 생각이든다.
+BT는 Character Controller의 상위호환이라고 생각한다.   
