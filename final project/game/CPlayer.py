@@ -11,10 +11,16 @@ class Player():
         self.Time=0
         self.Interval=0
         self.PlayerState=0
-       
-    
- 
-        
+        self.Life = 4
+        self.Gage=0
+        self.LagerTime=0
+        self.Power=0#플레이어 파워
+        self.BombNumber=2 #필살기개수
+        self.SoundDelta=0
+        self.IsShield=False
+        self.ShieldTime=0
+
+        self.SuperMode =False
     def fire(self):
         
         if win32api.GetAsyncKeyState(0x20) & 0x8000 and self.Interval>=1:  # space
@@ -26,6 +32,7 @@ class Player():
         self.fire()
         self.Interval += (20 * gfw.delta_time)
         self.x = clamp(40, self.x, 700)
+        self.Gage=clamp(0, self.Gage,100)
         self.y=clamp(40,self.y,900)
         if(win32api.GetAsyncKeyState(0x25) & 0x8000 or win32api.GetAsyncKeyState(0x26) & 0x8000
         or win32api.GetAsyncKeyState(0x27) & 0x8000 or win32api.GetAsyncKeyState(0x28) & 0x8000):

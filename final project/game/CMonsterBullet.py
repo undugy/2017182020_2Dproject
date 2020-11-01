@@ -109,9 +109,9 @@ class Monster1_Bullet:
         self.Radius = 7.5
         self.isDead = False
         self.Frame = 0
-
-        self.random_Delta= random.randint(60,100)/100
-        self.DeltaX, self.DeltaY = x - gfw.world.objects_at(CPlayer).x, y - gfw.world.objects_at(CPlayer).y
+        for player in gfw.world.objects_at(gfw.layer.CPlayer):  
+         self.random_Delta= random.randint(60,100)/100
+         self.DeltaX, self.DeltaY = x - player.x, y - player.y
         if Monster1_Bullet.image is None:
             Monster1_Bullet.image = load_image('Resource/PlaneBullet.png')
 
