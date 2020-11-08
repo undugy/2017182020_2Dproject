@@ -91,4 +91,5 @@ class RightPlane1():
 
     def draw(self):
         self.image.clip_draw(self.Frame * 42, 0, 42, 34, self.x, self.y, 80, 80)
+        
 

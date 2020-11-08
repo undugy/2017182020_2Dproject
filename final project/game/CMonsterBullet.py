@@ -6,7 +6,7 @@ import CPlayer
 
 import random
 import math
-name = 'PlaneBullet'
+
 
 
 class PlaneBullet:
@@ -109,13 +109,16 @@ class Monster1_Bullet:
         self.Radius = 7.5
         self.isDead = False
         self.Frame = 0
-        for player in gfw.world.objects_at(gfw.layer.CPlayer):  
-         self.random_Delta= random.randint(60,100)/100
-         self.DeltaX, self.DeltaY = x - player.x, y - player.y
+        self.random_Delta= random.randint(60,100)/100
         if Monster1_Bullet.image is None:
             Monster1_Bullet.image = load_image('Resource/PlaneBullet.png')
-
+        for player in gfw.world.objects_at(gfw.layer.CPlayer):
+         self.DeltaX=x-player.x
+         self.DeltaY=y-player.y
     def update(self):
+        #for player in gfw.world.objects_at(gfw.layer.CPlayer):
+         #self.DeltaX=x-player.x
+         #self.DeltaY=y-player.y
         self.x -= self.DeltaX * gfw.delta_time *self.random_Delta
         self.y -= self.DeltaY * gfw.delta_time *self.random_Delta
         self.Frame = (self.Frame + 1) % 8

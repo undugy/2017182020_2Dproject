@@ -1,17 +1,20 @@
 import gfw
 from pico2d import *
-from CPlayer import Player
+import CPlayer 
 import win32api
 import gobj
 import random
 import CMonster
+import CMonster2
 import CUI
 import CEffect
-
+import CItem
+import CHyperion
 def enter():
-    gfw.world.init(['CPlayer','CBullet','CMonster','CMonsterBullet','CUI','CEffect'])
-    global player,score,life
-    player=Player()
+    gfw.world.init(['CPlayer','CBullet','CMonster','CMonsterBullet',
+        'CUI','CEffect','CItem','CLazer','CHyperion'])
+    global player,score
+    player=CPlayer.Player()
     gfw.world.add(gfw.layer.CPlayer,player)
 
     score=CUI.Score()
@@ -31,7 +34,8 @@ def MonsterBullet_Collision():
   for MonsterBullet in gfw.world.objects_at(gfw.layer.CMonsterBullet):   
     for PlayerBullet in gfw.world.objects_at(gfw.layer.CBullet):
         if  Monster.x +Monster.RadianX > PlayerBullet.x > Monster.x-Monster.RadianX and Monster.y + Monster.PivotY >PlayerBullet.y > Monster.y - Monster.PivotY:
-         Monster.Hp -= 2 + player.Power * 0.75
+         PlayerBullet.isDead=True
+         Monster.Hp -= 0.5 + player.Power * 0.75
          player.Gage += 0.5
          score.Add_Score(random.randint(3, 7))
          PlayerBullet.isDead = True
@@ -40,28 +44,30 @@ def MonsterBullet_Collision():
          gfw.world.add(gfw.layer.CEffect,Pp)
          
 def PlayerBullet_Collision():
-    global player,score
+    global player
     for Monster in gfw.world.objects_at(gfw.layer.CMonster):
-     for MonsterBullet in gfw.world.objects_at(gfw.layer.CMonsterBullet):       
-      for PlayerBullet in gfw.world.objects_at(gfw.layer.CBullet):
+     for MonsterBullet in gfw.world.objects_at(gfw.layer.CMonsterBullet):
         Dist = math.sqrt((player.x - MonsterBullet.x) ** 2 + (player.y - MonsterBullet.y) ** 2)
         if Dist <=MonsterBullet.Radius and player.IsShield is False:
             MonsterBullet.isDead = True   
             if player.SuperMode is False:
-                player.Life-=1;
+                player.IsShield=True
+                player.Life-=1
+                print(player.Life)
                 
-            Cp=CEffect.Effect(player.x + random.randint(-20, 20),
+                Cp=CEffect.Effect(player.x + random.randint(-20, 20),
                                        player.y + random.randint(-20, 20), 128, 128,
                                       250, 250, 64, 5,0.3)
-            gfw.world.add(gfw.layer.CEffect,Cp)
-           
+                gfw.world.add(gfw.layer.CEffect,Cp)
+               
 bisAirPlaneMake = True
 MakeTerm=0
-
+Time = 0
 RedAirPlaneTerm =0
 def update():
-    PlayerBullet_Collision()
+   
     MonsterBullet_Collision()
+    PlayerBullet_Collision()
     gfw.world.update()
     
     
@@ -71,13 +77,23 @@ def update():
     global Time
 
     MakeTerm+=gfw.delta_time * 0.5
+    RedAirPlaneTerm += gfw.delta_time * 0.5
+    Time +=gfw.delta_time * 1 
     if MakeTerm >=1 and bisAirPlaneMake is True:
         MakeTerm=0
         Lp=CMonster.LeftPlane1(random.randint(0, 720), 960)
         Rp=CMonster.RightPlane1(random.randint(0, 720), 960)
         gfw.world.add(gfw.layer.CMonster,Lp)
         gfw.world.add(gfw.layer.CMonster,Rp)
-        
+        Bp=CMonster2.BlueAirPlane(random.randint(0, 300), 960)
+        Wp=CMonster2.WhiteAirPlane(1000, random.randint(500,960))
+        gfw.world.add(gfw.layer.CMonster,Bp)
+        gfw.world.add(gfw.layer.CMonster,Wp)
+    if RedAirPlaneTerm >= 4:
+        RedAirPlaneTerm=0
+        Redp=CMonster2.RedAirPlane(random.randint(0, 300), 960)
+        gfw.world.add(gfw.layer.CMonster,Redp)
+            
 
 
 def draw():
