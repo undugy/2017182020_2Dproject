@@ -10,8 +10,10 @@ import CUI
 import CEffect
 import CItem
 import CHyperion
+import Posin
+import Ship
 def enter():
-    gfw.world.init(['CPlayer','CBullet','CMonster','CMonsterBullet',
+    gfw.world.init(['CPlayer','Boss','CBullet','CMonster','CMonsterBullet',
         'CUI','CEffect','CItem','CLazer','CHyperion'])
     global player,score
     player=CPlayer.Player()
@@ -56,14 +58,20 @@ def PlayerBullet_Collision():
                 print(player.Life)
                 
                 Cp=CEffect.Effect(player.x + random.randint(-20, 20),
-                                       player.y + random.randint(-20, 20), 128, 128,
+                    player.y + random.randint(-20, 20), 128, 128,
                                       250, 250, 64, 5,0.3)
                 gfw.world.add(gfw.layer.CEffect,Cp)
                
 bisAirPlaneMake = True
 MakeTerm=0
-Time = 0
 RedAirPlaneTerm =0
+SmallBoss_MakeTerm =0
+SmallBossCnt = 2
+MiddleBossCnt = 1
+FinalBossCnt = 1
+Time = 0
+bisMiddleBossDead = False
+
 def update():
    
     MonsterBullet_Collision()
@@ -73,11 +81,12 @@ def update():
     
     
     
-    global MakeTerm, RedAirPlaneTerm,bisAirPlaneMake
+    global  MakeTerm, RedAirPlaneTerm,bisAirPlaneMake,SmallBoss_MakeTerm,SmallBossCnt,MiddleBossCnt,FinalBossCnt,bisMiddleBossDead
     global Time
 
     MakeTerm+=gfw.delta_time * 0.5
     RedAirPlaneTerm += gfw.delta_time * 0.5
+    SmallBoss_MakeTerm += gfw.delta_time * 1
     Time +=gfw.delta_time * 1 
     if MakeTerm >=1 and bisAirPlaneMake is True:
         MakeTerm=0
@@ -89,13 +98,30 @@ def update():
         Wp=CMonster2.WhiteAirPlane(1000, random.randint(500,960))
         gfw.world.add(gfw.layer.CMonster,Bp)
         gfw.world.add(gfw.layer.CMonster,Wp)
-    if RedAirPlaneTerm >= 4:
+    if RedAirPlaneTerm >= 4 and FinalBossCnt>0:
         RedAirPlaneTerm=0
         Redp=CMonster2.RedAirPlane(random.randint(0, 300), 960)
         gfw.world.add(gfw.layer.CMonster,Redp)
             
+    if SmallBoss_MakeTerm > 10 and SmallBossCnt > 0:
+        SmallBoss_MakeTerm= 0
+        SmallBossCnt -=1
+        Sp1=CMonster2.MidAirPlane(1300, 1300, -1)
+        Sp2=CMonster2.MidAirPlane(-580, 1300, 1)
+        gfw.world.add(gfw.layer.CMonster,Sp1)
+        gfw.world.add(gfw.layer.CMonster,Sp2)
+    
+    if Time > 20 and MiddleBossCnt > 0:
+        MiddleBossCnt -=1
+        BAP=CMonster2.BigAirPlane(360, 1160)
+        gfw.world.add(gfw.layer.CMonster,BAP)
 
-
+    if Time > 20 and bisMiddleBossDead is True and FinalBossCnt>0:
+        FinalBossCnt-=1
+        boss=Ship.BossShip(1400, 860)
+        gfw.world.add(gfw.layer.Boss,boss)
+        bisAirPlaneMake= False
+    pass   
 def draw():
     gfw.world.draw()
     

@@ -140,3 +140,127 @@ class WhiteAirPlane:
         gfw.world.remove(self)
     def draw(self):
         self.image.clip_draw(int(self.Frame) * 40, 0, 40, 40, self.x, self.y, 80, 80)
+
+class BigAirPlane:
+    image = None
+
+    def __init__(self):
+        pass
+
+    def __init__(self, x, y):
+        self.Hp = 5000
+        self.x, self.y = x, y
+        self.RadianX, self.PivotY = 250, 20
+        self.Dist = 0
+        self.BulletTerm = 0
+        self.BigBulletTerm = 0
+        self.BulletPossibleTime = 0
+        self.BigBulletPossibleTime = 0
+        self.isDead = False
+        if BigAirPlane.image is None:
+            BigAirPlane.image = load_image('Resource/BigAirPlan.png')
+
+    def update(self):
+        if self.isDead or self.Hp <= 0:
+            CUI.Score().Add_Score(random.randint(5000, 6000))
+            Bf1=CEffect.Effect(self.x + random.randint(-20, 20),self.y + random.randint(-20, 20),
+             252, 200, 600, 500, 14, 6,0.5)
+            gfw.world.add(gfw.layer.CEffect,Bf1)
+            bItem=CItem.Bomb_item(self.x, self.y)
+            gfw.world.add(gfw.layer.CItem,bItem)
+            main_state.bisMiddleBossDead = True
+            self.remove()
+
+        if self.y > 900:
+            self.y -= 30*gfw.delta_time
+        self.BigBulletPossibleTime += gfw.delta_time * 1
+        self.BulletPossibleTime += gfw.delta_time * 1
+
+        if self.BigBulletPossibleTime > 3:
+            self.BigBulletPossibleTime = 0
+        if self.BigBulletPossibleTime > 1.5:
+            self.BigBulletTerm += gfw.delta_time * 1
+            if self.BigBulletTerm > 0.03:
+                self.BigBulletTerm = 0
+                SMB=CMonsterBullet.PlaneBullet2(self.x, self.y - 150,2, random.randint(-360, 360),
+                                              random.randint(500, 700))
+                gfw.world.add(gfw.layer.CMonsterBullet,SMB)  
+        if self.BulletPossibleTime > 1.5:
+            self.BulletPossibleTime = 0
+        if self.BulletPossibleTime > 1:
+            self.BulletTerm += gfw.delta_time * 1
+            if self.BulletTerm > 0.1:
+                self.BulletTerm = 0
+                CMB=CMonsterBullet.Monster1_Bullet(self.x - 120, self.y - 50, 0)
+                gfw.world.add(gfw.layer.CMonsterBullet,CMB)
+                CMB2=CMonsterBullet.Monster1_Bullet(self.x + 120, self.y - 50, 0)
+                gfw.world.add(gfw.layer.CMonsterBullet,CMB2)
+    def remove(self):
+        gfw.world.remove(self)
+    def draw(self):
+        self.image.draw(self.x, self.y, 500, 400)
+
+
+class MidAirPlane:
+    image = None
+
+    def __init__(self):
+        pass
+
+    def __init__(self, x, y,Dir):
+        self.Hp = 250
+        self.x, self.y = x, y
+        self.Dir = Dir
+
+        self.Frame = 0
+        self.RadianX, self.PivotY = 100, 20
+        self.Dist = 0
+        self.BulletTerm = 0
+        self.BulletPossibleTime = 0
+        self.isDead = False
+        if MidAirPlane.image is None:
+            MidAirPlane.image = load_image('Resource/MidAirPlan.png')
+
+
+    def InitMove(self):
+        if self.Dir == -1 and self.x > 540:
+            self.x -= gfw.delta_time *100
+            pass
+        elif self.Dir == 1 and self.x < 180:
+            self.x += gfw.delta_time *100
+    def update(self):
+        self.InitMove()
+        if self.isDead or self.Hp <= 0:
+            CUI.Score().Add_Score(random.randint(1000, 1500))
+            Maf=CEffect.Effect(self.x + random.randint(-20, 20),
+                self.y + random.randint(-20, 20),128, 128, 200, 200, 9, 1)
+            gfw.world.add(gfw.layer.CEffect,Maf)
+            self.remove()
+
+        if self.y > 800:
+            self.y -= 70 * gfw.delta_time
+
+        self.BulletPossibleTime += gfw.delta_time
+
+        self.Frame += gfw.delta_time * 5
+        self.Frame = self.Frame % 2
+
+        if self.BulletPossibleTime > 4:
+            self.BulletPossibleTime = 0
+        if self.BulletPossibleTime > 3:
+            self.BulletTerm += gfw.delta_time * 1
+            if self.BulletTerm > 0.1:
+                self.BulletTerm = 0
+                Mab=CMonsterBullet.PlaneBullet3(self.x - 100, self.y - 50, -100, 0, 300)
+                gfw.world.add(gfw.layer.CMonsterBullet,Mab)
+
+                Mab2=CMonsterBullet.PlaneBullet3(self.x, self.y - 50, 0, 0, 400)
+                gfw.world.add(gfw.layer.CMonsterBullet,Mab2)
+
+                Mab3=CMonsterBullet.PlaneBullet3(self.x + 100, self.y - 50, 100, 0, 300)
+                gfw.world.add(gfw.layer.CMonsterBullet,Mab3)
+
+    def remove(self):
+        gfw.world.remove(self)
+    def draw(self):
+        self.image.clip_draw(int(self.Frame) * 310, 0, 310, 335, self.x, self.y, 200, 200)

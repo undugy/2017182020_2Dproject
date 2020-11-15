@@ -41,12 +41,12 @@ class Bomb_item():
 
     def update(self):
        for Player in gfw.world.objects_at(gfw.layer.CPlayer): 
-        Distance = math.sqrt((self.Player.x - self.x) ** 2 + (self.Player.y - self.y) ** 2)
+        Distance = math.sqrt((Player.x - self.x) ** 2 + (Player.y - self.y) ** 2)
         if Distance < 30:
             Pp=CEffect.Effect(self.x, self.y, 144, 100, 80, 50, 8, 3)
             gfw.world.add(gfw.layer.CEffect,Pp)
-            if self.Player.BombNumber < 5:
-                self.Player.BombNumber += 1
+            if Player.BombNumber < 5:
+                Player.BombNumber += 1
             self.remove();
         self.Move_Item()
 

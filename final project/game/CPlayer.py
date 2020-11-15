@@ -69,7 +69,7 @@ class Player():
                 
             elif self.LagerTime> 3 and gfw.world.count_at(gfw.layer.CLazer) >0:
                 self.LagerTime=0
-                for Lager in gfw.world.object_at(gfw.layer.CLazer):
+                for Lager in gfw.world.objects_at(gfw.layer.CLazer):
                     Lager.isDead=True
         pass       
     def update(self):

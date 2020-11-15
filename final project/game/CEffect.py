@@ -16,6 +16,7 @@ class Effect():
     def __init__(self, x, y, ImageX, ImageY, SizeX, SizeY, MaxFrame, Index,Speed=1):
         self.x, self.y = x, y
         self.Speed=Speed
+        self.Radius=7.5
         self.ImageX, self.ImageY, self.SizeX, self.SizeY, self.MaxFrame = ImageX, ImageY, SizeX, SizeY, MaxFrame
         self.ImageIndex = Index
         self.CurFrame = 0
