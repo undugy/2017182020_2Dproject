@@ -27,6 +27,17 @@ def enter():
     gfw.world.add(gfw.layer.CUI, life)
 
 
+    global  MakeTerm, RedAirPlaneTerm,bisAirPlaneMake,SmallBoss_MakeTerm,SmallBossCnt,MiddleBossCnt,FinalBossCnt,bisMiddleBossDead
+    global Time
+    bisAirPlaneMake = True
+    MakeTerm=0
+    RedAirPlaneTerm =0
+    SmallBoss_MakeTerm =0
+    SmallBossCnt = 2
+    MiddleBossCnt = 1
+    FinalBossCnt = 1
+    Time = 0
+    bisMiddleBossDead = False
 
 
 
@@ -62,24 +73,7 @@ def PlayerBullet_Collision():
                                       250, 250, 64, 5,0.3)
                 gfw.world.add(gfw.layer.CEffect,Cp)
                
-bisAirPlaneMake = True
-MakeTerm=0
-RedAirPlaneTerm =0
-SmallBoss_MakeTerm =0
-SmallBossCnt = 2
-MiddleBossCnt = 1
-FinalBossCnt = 1
-Time = 0
-bisMiddleBossDead = False
-
-def update():
-   
-    MonsterBullet_Collision()
-    PlayerBullet_Collision()
-    gfw.world.update()
-    
-    
-    
+def makeTime():
     
     global  MakeTerm, RedAirPlaneTerm,bisAirPlaneMake,SmallBoss_MakeTerm,SmallBossCnt,MiddleBossCnt,FinalBossCnt,bisMiddleBossDead
     global Time
@@ -115,12 +109,25 @@ def update():
         MiddleBossCnt -=1
         BAP=CMonster2.BigAirPlane(360, 1160)
         gfw.world.add(gfw.layer.CMonster,BAP)
+        
 
-    if Time > 20 and bisMiddleBossDead is True and FinalBossCnt>0:
+
+    if Time > 30 and CMonster2.checkDead == True and FinalBossCnt>0:
         FinalBossCnt-=1
         boss=Ship.BossShip(1400, 860)
         gfw.world.add(gfw.layer.Boss,boss)
         bisAirPlaneMake= False
+
+def update():
+   
+    MonsterBullet_Collision()
+    PlayerBullet_Collision()
+    gfw.world.update()
+    
+    makeTime()
+    
+    
+    
     pass   
 def draw():
     gfw.world.draw()

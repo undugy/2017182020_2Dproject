@@ -1,6 +1,4 @@
 from pico2d import *
-
-import main_state
 import gfw
 import CPlayer
 

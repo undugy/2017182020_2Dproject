@@ -10,6 +10,8 @@ import CMonsterBullet
 import CBullet
 import CUI
 
+checkDead=False
+
 class BlueAirPlane:
     image = None
 
@@ -113,7 +115,7 @@ class WhiteAirPlane:
         self.x, self.y = x, y
         self.RadianX, self.PivotY = 40, 10
         self.isDead = False
-        #self.DeltaX, self.DeltaY = main_state.ListManager.Get_Player().x - x, main_state.ListManager.Get_Player().y - y
+
         self.Frame = 0
         self.t = 0
         for player in gfw.world.objects_at(gfw.layer.CPlayer):
@@ -161,6 +163,7 @@ class BigAirPlane:
             BigAirPlane.image = load_image('Resource/BigAirPlan.png')
 
     def update(self):
+        global checkDead
         if self.isDead or self.Hp <= 0:
             CUI.Score().Add_Score(random.randint(5000, 6000))
             Bf1=CEffect.Effect(self.x + random.randint(-20, 20),self.y + random.randint(-20, 20),
@@ -168,7 +171,7 @@ class BigAirPlane:
             gfw.world.add(gfw.layer.CEffect,Bf1)
             bItem=CItem.Bomb_item(self.x, self.y)
             gfw.world.add(gfw.layer.CItem,bItem)
-            main_state.bisMiddleBossDead = True
+            checkDead=True
             self.remove()
 
         if self.y > 900:
