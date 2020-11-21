@@ -12,8 +12,11 @@ import CItem
 import CHyperion
 import Posin
 import Ship
+from background import VertScrollBackground
+
+
 def enter():
-    gfw.world.init(['CPlayer','Boss','CBullet','CMonster','CMonsterBullet',
+    gfw.world.init(['bg','CPlayer','Boss','CBullet','CMonster','CMonsterBullet',
         'CUI','CEffect','CItem','CLazer','CHyperion'])
     global player,score
     player=CPlayer.Player()
@@ -26,6 +29,9 @@ def enter():
     gfw.world.add(gfw.layer.CUI, CUI.Player_Bomb())
     gfw.world.add(gfw.layer.CUI, life)
 
+    bg=VertScrollBackground('Map_2.png')
+    bg.speed=50
+    gfw.world.add(gfw.layer.bg,bg)
 
     global  MakeTerm, RedAirPlaneTerm,bisAirPlaneMake,SmallBoss_MakeTerm,SmallBossCnt,MiddleBossCnt,FinalBossCnt,bisMiddleBossDead
     global Time

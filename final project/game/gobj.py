@@ -2,7 +2,7 @@ import random
 from pico2d import *
 import gfw
 
-RES_DIR = '../Reasource'
+RES_DIR = 'Reasource/'
 
 def rand(val):
     return val * random.uniform(0.9, 1.1)
@@ -25,7 +25,8 @@ def collides_box(a, b):
 	if ta < bb: return False
 
 	return True
-
+def res(file):
+	return RES_DIR + file
 def draw_collision_box():
 	for obj in gfw.world.all_objects():
 		if hasattr(obj, 'get_bb'):
