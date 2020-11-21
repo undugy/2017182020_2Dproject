@@ -111,14 +111,14 @@ def makeTime():
         gfw.world.add(gfw.layer.CMonster,Sp1)
         gfw.world.add(gfw.layer.CMonster,Sp2)
     
-    if Time > 20 and MiddleBossCnt > 0:
+    if Time > 40 and MiddleBossCnt > 0:
         MiddleBossCnt -=1
         BAP=CMonster2.BigAirPlane(360, 1160)
         gfw.world.add(gfw.layer.CMonster,BAP)
         
 
 
-    if Time > 30 and CMonster2.checkDead == True and FinalBossCnt>0:
+    if Time > 60 and CMonster2.checkDead == True and FinalBossCnt>0:
         FinalBossCnt-=1
         boss=Ship.BossShip(1400, 860)
         gfw.world.add(gfw.layer.Boss,boss)
