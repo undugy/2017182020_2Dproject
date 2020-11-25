@@ -13,7 +13,7 @@ import CHyperion
 import Posin
 import Ship
 from background import VertScrollBackground
-
+import title_state
 
 def enter():
     gfw.world.init(['bg','CPlayer','Boss','CBullet','CMonster','CMonsterBullet',
@@ -142,8 +142,7 @@ def handle_event(e):
     global player
     # prev_dx = boy.dx
     if e.type == SDL_QUIT:
-        gfw.quit()
-        
+        gfw.quit()    
     elif e.type == SDL_KEYDOWN:
         if e.key == SDLK_ESCAPE:
             gfw.pop()
