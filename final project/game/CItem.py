@@ -7,18 +7,22 @@ import gfw
 import CPlayer
 import math
 import CEffect
-name ='item'
+
+import SoundManager
+
+
 
 class Bomb_item():
     image=None
+    Sound=None
     def __init__(self,x,y):
         self.x,self.y=x,y
         self.Frame=0
         self.state1='L'
         self.state2 ='T'
+      
         if Bomb_item.image==None:
             Bomb_item.image = load_image('Resource/Item_Bomb.png')
-
     def Move_Item(self):
 
         if self.state1 == 'L':
@@ -45,6 +49,7 @@ class Bomb_item():
         if Distance < 30:
             Pp=CEffect.Effect(self.x, self.y, 144, 100, 80, 50, 8, 3)
             gfw.world.add(gfw.layer.CEffect,Pp)
+            
             if Player.BombNumber < 5:
                 Player.BombNumber += 1
             self.remove();
@@ -90,18 +95,21 @@ class Power_item():
                 self.state2 = 'T'
 
     def update(self):
+        
         for player in gfw.world.objects_at(gfw.layer.CPlayer):
          self.PlayerX=player.x
          self.PlayerY=player.y
          self.PlayerPower=player.Power 
         Distance = math.sqrt((self.PlayerX - self.x) ** 2 + (self.PlayerY - self.y) ** 2)
         if Distance < 30:
-
+            SoundManager.SoundManager().PlaySound(10)
             if self.PlayerPower < 3:
              for player in gfw.world.objects_at(gfw.layer.CPlayer):
                 player.Power += 1
                 Pp=CEffect.Effect(self.x, self.y, 144, 100, 80, 50, 8, 2)
+                
                 gfw.world.add(gfw.layer.CEffect,Pp)
+                
 
             self.remove()
 

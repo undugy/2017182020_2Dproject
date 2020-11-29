@@ -2,16 +2,16 @@ from pico2d import *
 
 class SoundManager:
     def __init__(self):
-        self.bgm = load_music('../Sound/Stage0.mp3')
+        self.bgm = load_music('Sound/Stage0.mp3')
         self.bgm.set_volume(64)
         self.bgm.repeat_play()
-        self.bgm2 = load_music('../Sound/GameOver.mp3')
+        self.bgm2 = load_music('Sound/GameOver.mp3')
         self.bgm2.set_volume(64)
 
         self.Expol_Sound1 = load_wav('Sound/Explode_Bomb.wav')
         self.Expol_Sound2 = load_wav('Sound/Explode_Guide.wav')
         self.Expol_Sound3 = load_wav('Sound/Explode_StaticAI.wav')
-        self.BossExpol_1=load_wav('../Sound/BossExpol_1.wav')
+        self.BossExpol_1=load_wav('Sound/BossExpol_1.wav')
         self.BossExpol_2 = load_wav('Sound/BossExpol_2.wav')
         self.BossExpol_3 = load_wav('Sound/BossExpol_3.wav')
         self.BossExpol_4 = load_wav('Sound/BossExpol_4.wav')

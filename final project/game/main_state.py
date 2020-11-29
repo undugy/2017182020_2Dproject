@@ -14,12 +14,16 @@ import Posin
 import Ship
 from background import VertScrollBackground
 import title_state
+import SoundManager
 
+Sound=None
 def enter():
     gfw.world.init(['bg','CPlayer','Boss','CBullet','CMonster','CMonsterBullet',
         'CUI','CEffect','CItem','CLazer','CHyperion'])
-    global player,score
+    global player,score,Sound
     player=CPlayer.Player()
+    Sound=SoundManager.SoundManager()
+    
     gfw.world.add(gfw.layer.CPlayer,player)
 
     score=CUI.Score()
