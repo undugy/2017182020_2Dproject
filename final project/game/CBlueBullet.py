@@ -7,7 +7,7 @@ import CEffect
 import random
 import math
 
-import SoundManager
+
 class Blue_Bullet2:
     image = None
     def __init__(self):
@@ -41,7 +41,7 @@ class Blue_Bullet2:
             self.Frame =0
         if self.isDead is True or self.y <= 0 or self.x < -10 or self.x > 740:
             if self.Number > 0:
-                SoundManager.PlaySound(12)
+                
                 bEf=CEffect.Effect(self.x, self.y,80, 80, 100, 100, 10, 7, 0.5)
                 gfw.world.add(gfw.layer.CEffect,bEf)
                 BB = Blue_Bullet2(self.x, self.y, self.Number-1, 0, 100)

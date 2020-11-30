@@ -4,7 +4,7 @@ class SoundManager:
     def __init__(self):
         self.bgm = load_music('Sound/Stage0.mp3')
         self.bgm.set_volume(64)
-        self.bgm.repeat_play()
+        #self.bgm.repeat_play()
         self.bgm2 = load_music('Sound/GameOver.mp3')
         self.bgm2.set_volume(64)
 
@@ -42,8 +42,10 @@ class SoundManager:
         self.Expol_Sound1.set_volume(64)
         self.Expol_Sound2.set_volume(32)
         self.Expol_Sound3.set_volume(32)
-
-
+    def update(self):
+        pass
+    def draw(self):
+        pass
     def GameOverSound(self):
         self.bgm.stop()
         self.bgm2.repeat_play()

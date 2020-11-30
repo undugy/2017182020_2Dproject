@@ -14,7 +14,7 @@ import Posin
 import Ship
 from background import VertScrollBackground
 import title_state
-import SoundManager
+import SoundManagement
 
 Sound=None
 def enter():
@@ -22,11 +22,12 @@ def enter():
         'CUI','CEffect','CItem','CLazer','CHyperion'])
     global player,score,Sound
     player=CPlayer.Player()
-    Sound=SoundManager.SoundManager()
-    
+    Sound=SoundManagement.SoundManager()
+    Sound.bgm.repeat_play()
     gfw.world.add(gfw.layer.CPlayer,player)
-
-    score=CUI.Score()
+    #gfw.world.add(gfw.layer.SoundManagement,Sound)
+ 
+    score=CUI.Score() 
     life=CUI.Life()
     gfw.world.add(gfw.layer.CUI, score)
     gfw.world.add(gfw.layer.CUI, CUI.Lager_Energy(160,30))
@@ -52,7 +53,7 @@ def enter():
 
 
 def MonsterBullet_Collision():
- global player,score
+ global player,score,Sound
  for Monster in gfw.world.objects_at(gfw.layer.CMonster):    
   for MonsterBullet in gfw.world.objects_at(gfw.layer.CMonsterBullet):   
     for PlayerBullet in gfw.world.objects_at(gfw.layer.CBullet):
@@ -62,17 +63,19 @@ def MonsterBullet_Collision():
          player.Gage += 0.5
          score.Add_Score(random.randint(3, 7))
          PlayerBullet.isDead = True
+         
          Pp=CEffect.Effect(PlayerBullet.x + random.randint(-15, 15),
                       PlayerBullet.y + random.randint(-15, 15), 30, 27, 30, 27, 12,0)
          gfw.world.add(gfw.layer.CEffect,Pp)
          
 def PlayerBullet_Collision():
-    global player
+    global player,Sound
     for Monster in gfw.world.objects_at(gfw.layer.CMonster):
      for MonsterBullet in gfw.world.objects_at(gfw.layer.CMonsterBullet):
         Dist = math.sqrt((player.x - MonsterBullet.x) ** 2 + (player.y - MonsterBullet.y) ** 2)
         if Dist <=MonsterBullet.Radius and player.IsShield is False:
-            MonsterBullet.isDead = True   
+            MonsterBullet.isDead = True
+            Sound.PlaySound(14)   
             if player.SuperMode is False:
                 player.IsShield=True
                 player.Life-=1
