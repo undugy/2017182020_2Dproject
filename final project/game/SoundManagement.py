@@ -3,10 +3,10 @@ from pico2d import *
 def init():
         global SoundLst,bgm,bgm2
         bgm = load_music('Sound/Stage0.mp3')
-        bgm.set_volume(64)
+        bgm.set_volume(40)
         
         bgm2 = load_music('Sound/GameOver.mp3')
-        bgm2.set_volume(64)
+        bgm2.set_volume(40)
 
         Expol_Sound1 = load_wav('Sound/Explode_Bomb.wav')
         Expol_Sound2 = load_wav('Sound/Explode_Guide.wav')
@@ -34,7 +34,7 @@ def init():
                         ScoreUp,Bullet,BlueBulletExpol,Bullet_Scout,LifeExpol]
 
         for i in range(3,10):
-            SoundLst[i].set_volume(80)
+            SoundLst[i].set_volume(50)
         SoundLst[11].set_volume(40)
         SoundLst[12].set_volume(64)
         SoundLst[13].set_volume(64)
@@ -47,6 +47,11 @@ def GameOverSound():
     global bgm,bgm2
     bgm.stop()
     bgm2.repeat_play()
-def PlaySound(number):
+def PlaySound(number,volume):
     global SoundLst
+    SoundLst[number].set_volume(volume)
     SoundLst[number].play(1)
+def PlaySound2(number,volume):
+    global SoundLst
+    SoundLst[number].set_volume(volume)
+    SoundLst[number].play()

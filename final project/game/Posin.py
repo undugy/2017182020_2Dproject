@@ -11,7 +11,7 @@ import CMonsterBullet
 import CBullet
 import CBossBlueBullet
 
-
+import SoundManagement
 class BigPosin:
     image = None
 
@@ -23,10 +23,11 @@ class BigPosin:
         self.Frame = 0
         self.Dist = 0
         self.isDead = False
-        self.Hp = 1000
+        self.Hp = 5000
         self.RadianX, self.PivotY = 50, 50
         self.bisOpen = False
         self.BulletMakeTerm = 0
+        self.Sound=SoundManagement
         self.RandomDelta=random.randint(40,90)/100
         if BigPosin.image == None:
             BigPosin.image = load_image('Resource/BigPosin.png')
@@ -53,6 +54,7 @@ class BigPosin:
             CUI.Score().Add_Score(random.randint(1500, 2000))
             pEf=CEffect.Effect(self.x + random.randint(-20, 20),self.y + random.randint(-20, 20),128, 128, 200, 200, 9, 1)
             gfw.world.add(gfw.layer.CEffect,pEf)
+            self.Sound.PlaySound(random.randint(3,7),40)
             for boss in gfw.world.objects_at(gfw.layer.Boss):
              boss.DeathCnt+=1
             self.remove()
@@ -74,9 +76,9 @@ class MiddlePosin:
         self.Frame = 0
         self.Dist = 0
         self.isDead = False
-        self.Hp = 350
+        self.Hp = 3500
         self.RadianX, self.PivotY = 25, 25
-
+        self.Sound=SoundManagement
         self.Time =0
         self.BulletTime = 3
         self.BulletPossibleTime = 0
@@ -124,7 +126,7 @@ class MiddlePosin:
             pEf2=CEffect.Effect(self.x + random.randint(-20, 20),
              self.y + random.randint(-20, 20),128, 128, 200, 200, 9, 1)
             gfw.world.add(gfw.layer.CEffect,pEf2)
-            
+            self.Sound.PlaySound(random.randint(3,7),40)
             for boss in gfw.world.objects_at(gfw.layer.Boss):
              boss.DeathCnt+=1
             self.remove()
@@ -146,7 +148,8 @@ class SmallPosin:
         self.Frame = 0
         self.Dist = 0
         self.isDead = False
-        self.Hp = 250
+        self.Hp = 2500
+        self.Sound=SoundManagement
         self.RadianX, self.PivotY = 30, 20
         self.BulletTime = 0
         self.MakeBulletTerm = random.randint(20,40) / 10
@@ -180,6 +183,7 @@ class SmallPosin:
             Sce=CEffect.Effect(self.x + random.randint(-20, 20),
              self.y + random.randint(-20, 20),128, 128, 200, 200, 9, 1)
             gfw.world.add(gfw.layer.CMonsterBullet,Sce)
+            self.Sound.PlaySound(random.randint(3,7),40)
             for boss in gfw.world.objects_at(gfw.layer.Boss):
              boss.DeathCnt+=1
             self.remove()

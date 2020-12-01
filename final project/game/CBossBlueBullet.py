@@ -6,7 +6,7 @@ import CBlueBullet
 import CEffect
 import random
 import math
-
+import SoundManagement
 
 class Blue_Bullet:
     image = None
@@ -22,6 +22,7 @@ class Blue_Bullet:
         self.LifeTime=random.randint(100,300) /100
         self.DeathTime=0
         self.index = 0
+        self.Sound=SoundManagement
         self.Number=0
         self.RandomSpeed_Delta= random.randint(30,50) /100
         if Blue_Bullet.image is None:
@@ -46,6 +47,7 @@ class Blue_Bullet:
         if self.isDead is True:
             Bf1=CEffect.Effect(self.x, self.y,80, 80, 100, 100, 10, 7, 0.5)
             gfw.world.add(gfw.layer.CEffect,Bf1)
+            self.Sound.PlaySound(12,40)
             BBB = CBlueBullet.Blue_Bullet2(self.x, self.y, self.Number-1, 0, 100)
             gfw.world.add(gfw.layer.CMonsterBullet,BBB)
             BBB1 = CBlueBullet.Blue_Bullet2(self.x, self.y,  self.Number-1, 50 * math.sqrt(2), 50 * math.sqrt(2))

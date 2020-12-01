@@ -4,6 +4,7 @@ import win32api
 from gobj import *
 import CBullet
 import CHyperion 
+import SoundManagement
 class Player():
     def __init__(self):
         self.x, self.y = 0, 90
@@ -12,13 +13,13 @@ class Player():
         self.Time=0
         self.Interval=0
         self.PlayerState=0
-        self.Life = 5
+        self.Life = 3
+      
         self.PreLife=self.Life
         self.Gage=0
         self.LagerTime=0
         self.Power=0#플레이어 파워
         self.BombNumber=2 #필살기개수
-        self.SoundDelta=0
         self.IsShield=False
         self.ShieldTime=0
 
@@ -44,9 +45,12 @@ class Player():
     def fire(self):
         
         if win32api.GetAsyncKeyState(0x20) & 0x8000 and self.Interval>=1:  # space
+            
             self.Interval=0
+
             bullet=CBullet.Bullet(self.x,self.y+20)
             gfw.world.add(gfw.layer.CBullet,bullet)
+
     def Make_Hyperion(self):
         if  win32api.GetAsyncKeyState(0x53) & 0x1001 and self.BombNumber >= 1 :  # s:
             self.BombNumber -= 1
@@ -95,9 +99,9 @@ class Player():
             PlayerState=0
         self.Time=(self.Time+1)%50
         if win32api.GetAsyncKeyState(0x25) & 0x8000 and self.Time>=48:
-            self.Frame -= 1
+            self.Frame -=1
         if win32api.GetAsyncKeyState(0x27) & 0x8000 and self.Time>=48:
-            self.Frame += 1
+            self.Frame +=1
             
         if self.Frame<=0:
             self.Frame=0

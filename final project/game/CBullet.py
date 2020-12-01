@@ -2,6 +2,7 @@ from pico2d import *
 import gfw
 from gobj import *
 import CPlayer
+import CEffect
 name='Bullet'
 class Bullet():
     image = [None,None,None,None]
@@ -54,6 +55,9 @@ class Player_Lager():
          self.y =player.y
       for Monster in gfw.world.objects_at(gfw.layer.CMonster):
          if Monster.x - Monster.RadianX < self.x < Monster.x+Monster.RadianX and self.y<Monster.y:
+                Pp=CEffect.Effect(Monster.x + random.randint(-15, 15),
+                      Monster.y + random.randint(-15, 15), 30, 27, 30, 27, 12,0)
+                gfw.world.add(gfw.layer.CEffect,Pp)
                 Monster.Hp -=gfw.delta_time*30
       self.LifeTime+=0.1
       self.Frame=(self.Frame+1)%80

@@ -76,7 +76,7 @@ def PlayerBullet_Collision():
         Dist = math.sqrt((player.x - MonsterBullet.x) ** 2 + (player.y - MonsterBullet.y) ** 2)
         if Dist <=MonsterBullet.Radius and player.IsShield is False:
             MonsterBullet.isDead = True
-            Sound.PlaySound(14)   
+            Sound.PlaySound(14,40)   
             if player.SuperMode is False:
                 player.IsShield=True
                 player.Life-=1
@@ -92,8 +92,8 @@ def makeTime():
     global  MakeTerm, RedAirPlaneTerm,bisAirPlaneMake,SmallBoss_MakeTerm,SmallBossCnt,MiddleBossCnt,FinalBossCnt,bisMiddleBossDead
     global Time
 
-    MakeTerm+=gfw.delta_time * 0.5
-    RedAirPlaneTerm += gfw.delta_time * 0.5
+    MakeTerm+=gfw.delta_time * 0.7
+    RedAirPlaneTerm += gfw.delta_time * 0.3
     SmallBoss_MakeTerm += gfw.delta_time * 1
     Time +=gfw.delta_time * 1 
     if MakeTerm >=1 and bisAirPlaneMake is True:

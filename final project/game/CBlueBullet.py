@@ -1,6 +1,6 @@
 from pico2d import *
 
-
+import SoundManagement
 import gfw
 
 import CEffect
@@ -19,6 +19,7 @@ class Blue_Bullet2:
         self.Radius = 10
         self.isDead = False
         self.Frame = 0
+        self.Sound=SoundManagement
         self.LifeTime = random.randint(100,300) /100
         self.DeathTime = 0
         self.index= 0
@@ -41,7 +42,7 @@ class Blue_Bullet2:
             self.Frame =0
         if self.isDead is True or self.y <= 0 or self.x < -10 or self.x > 740:
             if self.Number > 0:
-                
+                self.Sound.PlaySound(12,40)
                 bEf=CEffect.Effect(self.x, self.y,80, 80, 100, 100, 10, 7, 0.5)
                 gfw.world.add(gfw.layer.CEffect,bEf)
                 BB = Blue_Bullet2(self.x, self.y, self.Number-1, 0, 100)

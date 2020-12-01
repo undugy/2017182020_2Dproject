@@ -10,7 +10,7 @@ import CMonsterBullet
 import CBullet
 import Posin
 import CUI
-
+import SoundManagement
 class BossShip:
     image = None
     image2 = None
@@ -22,7 +22,7 @@ class BossShip:
         self.Frame = 0
         self.Dist = 0
         self.isDead = False
-
+        self.Sound=SoundManagement
 
         self.DeathCnt=0
         self.EffectTerm=0
@@ -93,6 +93,7 @@ class BossShip:
             self.DeathSizeY += (gfw.delta_time * 10)
             self.EffectTerm +=gfw.delta_time
             if self.EffectTerm > 0.1 and self.DeathSizeX< 600:
+                self.Sound.PlaySound(random.randint(3, 7),50)
                 self.EffectTerm = 0
                 DbEf=CEffect.Effect(self.x + random.randint(int(-700+self.DeathSizeX),int(700-self.DeathSizeX)),
                     self.y + random.randint(int(-100+self.DeathSizeY), int(100-self.DeathSizeY)), 149, 149,
