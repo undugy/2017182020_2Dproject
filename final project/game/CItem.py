@@ -2,7 +2,7 @@
 
 from pico2d import *
 
-import main_state
+import SoundManagement
 import gfw
 import CPlayer
 import math
@@ -19,7 +19,7 @@ class Bomb_item():
         self.Frame=0
         self.state1='L'
         self.state2 ='T'
-      
+        
         if Bomb_item.image==None:
             Bomb_item.image = load_image('Resource/Item_Bomb.png')
     def Move_Item(self):
@@ -67,7 +67,7 @@ class Power_item():
         self.Frame = 0
         self.state1 = 'L'
         self.state2 = 'T'
-        
+        self.Sound=SoundManagement
         if Power_item.image == None:
             Power_item.image = load_image('Resource/Item_Power.png')
         #for player in gfw.world.objects_at(gfw.layer.CPlayer):
@@ -101,6 +101,7 @@ class Power_item():
         Distance = math.sqrt((self.PlayerX - self.x) ** 2 + (self.PlayerY - self.y) ** 2)
         if Distance < 30:
             
+            self.Sound.PlaySound(10)
             if self.PlayerPower < 3:
              for player in gfw.world.objects_at(gfw.layer.CPlayer):
                 player.Power += 1

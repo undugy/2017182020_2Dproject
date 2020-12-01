@@ -22,7 +22,8 @@ def enter():
         'CUI','CEffect','CItem','CLazer','CHyperion'])
     global player,score,Sound
     player=CPlayer.Player()
-    Sound=SoundManagement.SoundManager()
+    Sound=SoundManagement
+    Sound.init()
     Sound.bgm.repeat_play()
     gfw.world.add(gfw.layer.CPlayer,player)
     #gfw.world.add(gfw.layer.SoundManagement,Sound)
