@@ -70,7 +70,7 @@ class Power_item():
         self.Sound=SoundManagement
         if Power_item.image == None:
             Power_item.image = load_image('Resource/Item_Power.png')
-        #for player in gfw.world.objects_at(gfw.layer.CPlayer):
+        
         self.PlayerX=0#player.x
         self.PlayerY=0#player.y
         self.PlayerPower=0#player.Power 

@@ -66,7 +66,7 @@ class Player():
             self.LagerTime+=gfw.delta_time*2
         if win32api.GetAsyncKeyState(0x41) & 0x1001:
             if gfw.world.count_at(gfw.layer.CLazer) == 0 and self.Gage>20:# a
-                LayL=CBullet.Player_Lager(25)
+                LayL=CBullet.Player_Lager(14)
                 gfw.world.add(gfw.layer.CLazer,LayL)
                 LayR=CBullet.Player_Lager(-25)
                 gfw.world.add(gfw.layer.CLazer,LayR)
@@ -82,9 +82,9 @@ class Player():
         self.Make_Hyperion()
         self.fire()
         self.Interval += (20 * gfw.delta_time)
-        self.x = clamp(40, self.x, 700)
+        self.x = clamp(40, self.x, 720)
         self.Gage=clamp(0, self.Gage,100)
-        self.y=clamp(40,self.y,900)
+        self.y=clamp(40,self.y,960)
         if(win32api.GetAsyncKeyState(0x25) & 0x8000 or win32api.GetAsyncKeyState(0x26) & 0x8000
         or win32api.GetAsyncKeyState(0x27) & 0x8000 or win32api.GetAsyncKeyState(0x28) & 0x8000):
             if win32api.GetAsyncKeyState(0x25) & 0x8000:

@@ -93,7 +93,7 @@ def MonsterBullet_Collision():
          
          Monster.Hp -= 0.5 + player.Power * 0.75
          player.Gage += 1/(player.Power*10+10)
-         #score.Add_Score(random.randint(3, 7))
+          
          score+=1
          PlayerBullet.isDead = True
          
