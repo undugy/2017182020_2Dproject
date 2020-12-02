@@ -11,9 +11,12 @@ import CBullet
 import Posin
 import CUI
 import SoundManagement
+
+checkDead=False
 class BossShip:
     image = None
     image2 = None
+    image3 = None
     def __init__(self):
         pass
 
@@ -36,6 +39,8 @@ class BossShip:
             BossShip.image = load_image('Resource/Ship.png')
         if BossShip.image2 == None:
             BossShip.image2 = load_image('Resource/Ship2.png')
+        if BossShip.image3 == None:
+            BossShip.image3 = load_image('Resource/gameclear.png')
         self.BigPosin1 = Posin.BigPosin(self.x-360,self.y)
         gfw.world.add(gfw.layer.CMonster,self.BigPosin1)
         self.BigPosin2 = Posin.BigPosin(self.x-248, self.y)
@@ -88,6 +93,7 @@ class BossShip:
         pass
 
     def BossDead(self):
+        global checkDead
         if self.DeathCnt >=13 :
             self.DeathSizeX += gfw.delta_time * (137.5/2)
             self.DeathSizeY += (gfw.delta_time * 10)
@@ -100,18 +106,20 @@ class BossShip:
                     250, 250, 32, 8, 0.3)
                 gfw.world.add(gfw.layer.CEffect,DbEf)
 
-
         if self.LateInit is False and self.DeathSizeX>600:
+            
             self.LateInit = True
-            CUI.FinalScore()
+            checkDead=True
+            
     def update(self):
-
+        global checkDead
         self.BossDead()
         self.InitMove()
         if self.isDead:
             Bcef=CEffect.Effect(self.x + random.randint(-20, 20),
                 self.y + random.randint(-20, 20),128, 128, 200, 200, 9, 1)
             gfw.world.add(gfw.layer.CEffect,Bcef)
+            
             self.remove()
     def remove(self):
         gfw.world.remove(self)
@@ -120,4 +128,5 @@ class BossShip:
             self.image.draw(self.x, self.y, 1375, 200)
         else :
             self.image2.draw(self.x, self.y, 1375-self.DeathSizeX, 200-self.DeathSizeY)
+            self.image3.draw(360,480,300,300)
 

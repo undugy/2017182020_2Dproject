@@ -63,7 +63,7 @@ class Player():
             
     def Make_Lager(self):
         if gfw.world.count_at(gfw.layer.CLazer) >0:
-            self.LagerTime+=gfw.delta_time
+            self.LagerTime+=gfw.delta_time*2
         if win32api.GetAsyncKeyState(0x41) & 0x1001:
             if gfw.world.count_at(gfw.layer.CLazer) == 0 and self.Gage>20:# a
                 LayL=CBullet.Player_Lager(25)

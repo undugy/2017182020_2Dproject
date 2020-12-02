@@ -15,22 +15,49 @@ import Ship
 from background import VertScrollBackground
 import title_state
 import SoundManagement
+import highscore
+import game_over_state
 
-Sound=None
+
+canvas_width = 720
+canvas_height = 960
+STATE_IN_GAME, STATE_GAME_OVER = range(2)
+
+
+def end_game():
+    global state,Sound,score
+    state = STATE_GAME_OVER
+    Sound.bgm.stop()
+    Sound.bgm2.repeat_play()
+    highscore.add(score)
+    gfw.change(game_over_state)
+
 def enter():
     gfw.world.init(['bg','CPlayer','Boss','CBullet','CMonster','CMonsterBullet',
         'CUI','CEffect','CItem','CLazer','CHyperion'])
-    global player,score,Sound
+    global player,score,Sound,state
+    state=STATE_IN_GAME
     player=CPlayer.Player()
+
+
+    global font
+    font = gfw.font.load('Resource/2P.ttf', 20)
+
     Sound=SoundManagement
     Sound.init()
     Sound.bgm.repeat_play()
     gfw.world.add(gfw.layer.CPlayer,player)
-    #gfw.world.add(gfw.layer.SoundManagement,Sound)
- 
-    score=CUI.Score() 
+
+    global game_over_image
+    game_over_image = gfw.image.load('Resource/GameOver.png')
+
+
+    score =0 #Score(canvas_width - 20, canvas_height - 50)
+    #gfw.world.add(gfw.layer.CUI, score) 
+   
     life=CUI.Life()
-    gfw.world.add(gfw.layer.CUI, score)
+
+    #gfw.world.add(gfw.layer.CUI, score)
     gfw.world.add(gfw.layer.CUI, CUI.Lager_Energy(160,30))
     gfw.world.add(gfw.layer.CUI, CUI.Player_Bomb())
     gfw.world.add(gfw.layer.CUI, life)
@@ -39,6 +66,9 @@ def enter():
     bg.speed=50
     gfw.world.add(gfw.layer.bg,bg)
 
+    
+    highscore.load()
+    
     global  MakeTerm, RedAirPlaneTerm,bisAirPlaneMake,SmallBoss_MakeTerm,SmallBossCnt,MiddleBossCnt,FinalBossCnt,bisMiddleBossDead
     global Time
     bisAirPlaneMake = True
@@ -52,7 +82,6 @@ def enter():
     bisMiddleBossDead = False
 
 
-
 def MonsterBullet_Collision():
  global player,score,Sound
  for Monster in gfw.world.objects_at(gfw.layer.CMonster):    
@@ -60,9 +89,11 @@ def MonsterBullet_Collision():
     for PlayerBullet in gfw.world.objects_at(gfw.layer.CBullet):
         if  Monster.x +Monster.RadianX > PlayerBullet.x > Monster.x-Monster.RadianX and Monster.y + Monster.PivotY >PlayerBullet.y > Monster.y - Monster.PivotY:
          PlayerBullet.isDead=True
+         
          Monster.Hp -= 0.5 + player.Power * 0.75
-         player.Gage += 0.5
-         score.Add_Score(random.randint(3, 7))
+         player.Gage += 0.1
+         #score.Add_Score(random.randint(3, 7))
+         score+=1
          PlayerBullet.isDead = True
          
          Pp=CEffect.Effect(PlayerBullet.x + random.randint(-15, 15),
@@ -70,7 +101,7 @@ def MonsterBullet_Collision():
          gfw.world.add(gfw.layer.CEffect,Pp)
          
 def PlayerBullet_Collision():
-    global player,Sound
+    global player,Sound,state
     for Monster in gfw.world.objects_at(gfw.layer.CMonster):
      for MonsterBullet in gfw.world.objects_at(gfw.layer.CMonsterBullet):
         Dist = math.sqrt((player.x - MonsterBullet.x) ** 2 + (player.y - MonsterBullet.y) ** 2)
@@ -79,18 +110,20 @@ def PlayerBullet_Collision():
             Sound.PlaySound(14,40)   
             if player.SuperMode is False:
                 player.IsShield=True
-                player.Life-=1
-                print(player.Life)
-                
+                #player.Life-=1
                 Cp=CEffect.Effect(player.x + random.randint(-20, 20),
                     player.y + random.randint(-20, 20), 128, 128,
                                       250, 250, 64, 5,0.3)
                 gfw.world.add(gfw.layer.CEffect,Cp)
+                if player.Life<=0:
+                    state=STATE_GAME_OVER
+                    return True
+
                
 def makeTime():
     
     global  MakeTerm, RedAirPlaneTerm,bisAirPlaneMake,SmallBoss_MakeTerm,SmallBossCnt,MiddleBossCnt,FinalBossCnt,bisMiddleBossDead
-    global Time
+    global Time, boss,score, Sound
 
     MakeTerm+=gfw.delta_time * 0.7
     RedAirPlaneTerm += gfw.delta_time * 0.3
@@ -127,24 +160,38 @@ def makeTime():
 
 
     if Time > 60 and CMonster2.checkDead == True and FinalBossCnt>0:
+        Sound.bgm.stop()
+        Sound.bgm3.repeat_play()
+        score+=5000
         FinalBossCnt-=1
         boss=Ship.BossShip(1400, 860)
         gfw.world.add(gfw.layer.Boss,boss)
         bisAirPlaneMake= False
+        #for b in gfw.world.objects_at(gfw.layer.Boss):
+
+    if Ship.checkDead:
+        score+=10000
+        Sound.bgm4.stop()
+        return True
 
 def update():
-   
+    if state != STATE_IN_GAME:
+        return
     MonsterBullet_Collision()
     PlayerBullet_Collision()
     gfw.world.update()
-    
-    makeTime()
+    ends=PlayerBullet_Collision()
+    clear=makeTime()
+    if ends or clear:
+        end_game()
     
     
     
     pass   
 def draw():
     gfw.world.draw()
+    score_pos = 30, get_canvas_height() - 30
+    font.draw(*score_pos, 'Score: %d' % score, (255,255,255))
     
 def handle_event(e):
     global player
@@ -156,6 +203,8 @@ def handle_event(e):
             gfw.pop()
 
 def exit():
+    global Sound
+    Sound.Delete_AllList()
     pass
 
 

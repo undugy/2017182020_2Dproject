@@ -40,10 +40,12 @@ class Hyperion():
         for Mb in gfw.world.objects_at(gfw.layer.CMonsterBullet):
             if (self.x - 120 < Mb.x < self.x + 120) and  (self.y - 60 < Mb.y < self.y + 60):
                 Mb.isDead=True
+                
                 if Mb.index == 2:
                     He=CEffect.Effect(Mb.x,Mb.y,128,128,60,60,8,4)
                     gfw.world.add(gfw.layer.CEffect,He)
-                    pass
+                    
+                 
 
 
 

@@ -1,15 +1,14 @@
 from pico2d import *
 
 import math
-import main_state
 import gfw
 import CItem
 import random
 import CEffect
 import CMonsterBullet
 import CBullet
-import CUI
 import SoundManagement
+
 checkDead=False
 
 class BlueAirPlane:
@@ -19,7 +18,7 @@ class BlueAirPlane:
         pass
 
     def __init__(self, x, y):
-        self.Hp = 50
+        self.Hp = 20
         self.x, self.y = x, y
         self.RadianX, self.PivotY = 40, 10
         self.FirstX, self.FirstY = x, y
@@ -36,11 +35,11 @@ class BlueAirPlane:
 
     def update(self):
         if self.isDead or self.Hp <= 0:
-            CUI.Score().Add_Score(random.randint(70,100))
+            
             Ef3=CEffect.Effect(self.x + random.randint(-20, 20),
             	self.y + random.randint(-20, 20),128, 128, 200, 200, 9, 1)
             gfw.world.add(gfw.layer.CEffect,Ef3)
-            self.Sound.PlaySound(2,30)
+            self.Sound.PlaySound(1,30)
             self.remove()
         if self.Initialize is False and self.t > 0.5:
             self.Initialize = True
@@ -67,7 +66,7 @@ class RedAirPlane:
         pass
 
     def __init__(self, x, y):
-        self.Hp = 20
+        self.Hp = 10
         self.x, self.y = x, y
         self.RadianX, self.PivotY = 40, 10
         self.isDead = False
@@ -83,13 +82,13 @@ class RedAirPlane:
 
     def update(self):
         if self.isDead or self.Hp <= 0:
-            CUI.Score().Add_Score(random.randint(200, 300))
+            
             Ef4=CEffect.Effect(self.x + random.randint(-20, 20),
             	self.y + random.randint(-20, 20),128, 128, 200, 200, 9, 1)
             gfw.world.add(gfw.layer.CEffect,Ef4)
             RItem=CItem.Power_item(self.x, self.y)
             gfw.world.add(gfw.layer.CItem,RItem)
-            self.Sound.PlaySound(2,30)
+            self.Sound.PlaySound(1,30)
             self.remove()
         if self.Initialize is False and self.t > 0.5:
             self.Initialize = True
@@ -115,7 +114,7 @@ class WhiteAirPlane:
         pass
 
     def __init__(self, x, y):
-        self.Hp = 50
+        self.Hp = 20
         self.x, self.y = x, y
         self.RadianX, self.PivotY = 40, 10
         self.isDead = False
@@ -130,11 +129,11 @@ class WhiteAirPlane:
         
     def update(self):
         if self.isDead or self.Hp <= 0:
-            CUI.Score().Add_Score(random.randint(200, 300))
+            
             Ef5=CEffect.Effect(self.x + random.randint(-20, 20),
             	self.y + random.randint(-20, 20),128, 128, 200, 200, 9, 1)
             gfw.world.add(gfw.layer.CEffect,Ef5)
-            self.Sound.PlaySound(2,30)
+            self.Sound.PlaySound(1,30)
             self.remove()
         if self.t > 1:
             self.remove()
@@ -154,7 +153,7 @@ class BigAirPlane:
         pass
 
     def __init__(self, x, y):
-        self.Hp = 15000
+        self.Hp = 10000
         self.x, self.y = x, y
         self.RadianX, self.PivotY = 250, 20
         self.Dist = 0
@@ -170,7 +169,7 @@ class BigAirPlane:
     def update(self):
         global checkDead
         if self.isDead or self.Hp <= 0:
-            CUI.Score().Add_Score(random.randint(5000, 6000))
+    
             Bf1=CEffect.Effect(self.x + random.randint(-20, 20),self.y + random.randint(-20, 20),
              252, 200, 600, 500, 14, 6,0.5)
             gfw.world.add(gfw.layer.CEffect,Bf1)
@@ -217,7 +216,7 @@ class MidAirPlane:
         pass
 
     def __init__(self, x, y,Dir):
-        self.Hp = 2500
+        self.Hp = 1000
         self.x, self.y = x, y
         self.Dir = Dir
 
@@ -240,7 +239,7 @@ class MidAirPlane:
     def update(self):
         self.InitMove()
         if self.isDead or self.Hp <= 0:
-            CUI.Score().Add_Score(random.randint(1000, 1500))
+            
             Maf=CEffect.Effect(self.x + random.randint(-20, 20),
                 self.y + random.randint(-20, 20),128, 128, 200, 200, 9, 1)
             gfw.world.add(gfw.layer.CEffect,Maf)

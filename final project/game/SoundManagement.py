@@ -1,12 +1,19 @@
 from pico2d import *
 
 def init():
-        global SoundLst,bgm,bgm2
+        global SoundLst,bgm,bgm2,bgm3,bgm4
         bgm = load_music('Sound/Stage0.mp3')
         bgm.set_volume(40)
         
         bgm2 = load_music('Sound/GameOver.mp3')
         bgm2.set_volume(40)
+
+        bgm3 = load_music('Sound/BossStart.mp3')
+        bgm3.set_volume(40)
+        
+        bgm4 = load_music('Sound/Victory.mp3')
+        bgm4.set_volume(40)
+
 
         Expol_Sound1 = load_wav('Sound/Explode_Bomb.wav')
         Expol_Sound2 = load_wav('Sound/Explode_Guide.wav')
@@ -17,9 +24,9 @@ def init():
         BossExpol_4 = load_wav('Sound/BossExpol_4.wav')
         BossExpol_5 = load_wav('Sound/BossExpol_5.wav')
 
-
+        PowerDown=load_wav('Sound/PowerDown.wav')
         PowerUp = load_wav('Sound/PowerUp.wav')#8
-        PowerDown = load_wav('Sound/PowerDown.wav')#9
+        
         ScoreUp = load_wav('Sound/ScoreUp.wav')#10
         Bullet = load_wav('Sound/Bullet.wav')#11
         BlueBulletExpol = load_wav('Sound/BlueBullet_Expol.wav')#12
@@ -43,10 +50,7 @@ def init():
         Expol_Sound2.set_volume(32)
         Expol_Sound3.set_volume(32)
     
-def GameOverSound():
-    global bgm,bgm2
-    bgm.stop()
-    bgm2.repeat_play()
+
 def PlaySound(number,volume):
     global SoundLst
     SoundLst[number].set_volume(volume)
@@ -55,3 +59,11 @@ def PlaySound2(number,volume):
     global SoundLst
     SoundLst[number].set_volume(volume)
     SoundLst[number].play()
+def Delete_AllList():
+    global SoundLst,bgm,bgm2,bgm3,bgm4
+    del bgm
+    del bgm2
+    del bgm3
+    del bgm4
+    for Object in SoundLst:
+            del(Object)

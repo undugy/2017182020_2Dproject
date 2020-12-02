@@ -4,10 +4,9 @@ import math
 import random
 import CEffect
 import gfw
-import main_state
 import gobj
-import CUI
 import SoundManagement
+
 class LeftPlane1():
     image = None
 
@@ -15,7 +14,7 @@ class LeftPlane1():
         pass
 
     def __init__(self, x, y):
-        self.Hp = 50
+        self.Hp = 20
         self.x, self.y = x, y
         self.RadianX, self.PivotY = 40, 10
         self.Frame = 0
@@ -28,8 +27,6 @@ class LeftPlane1():
 
     def update(self):
         if self.isDead or self.Hp<=0:
-            #for score in gfw.world.objects_at(gfw.layer.CUI):
-             CUI.Score().Add_Score(random.randint(100, 150))
              Ef1=CEffect.Effect(self.x + random.randint(-20, 20),self.y + random.randint(-20, 20),128, 128, 200, 200, 9, 1)
              gfw.world.add(gfw.layer.CEffect,Ef1)
              self.Sound.PlaySound(1,30)
@@ -58,7 +55,7 @@ class RightPlane1():
         pass
 
     def __init__(self, x, y):
-        self.Hp = 50
+        self.Hp = 20
         self.x, self.y = x, y
         self.RadianX, self.PivotY = 40, 10
         self.Frame = 0
@@ -73,10 +70,11 @@ class RightPlane1():
     def update(self):
         if self.isDead or self.Hp<=0:
             #for score in gfw.world.objects_at(gfw.layer.CUI):
-             CUI.Score().Add_Score(random.randint(100, 150))
+             #CUI.Score().Add_Score(random.randint(100, 150))
+             
              Ef2=CEffect.Effect(self.x + random.randint(-20, 20),self.y + random.randint(-20, 20),128, 128, 200, 200, 9, 1)
              gfw.world.add(gfw.layer.CEffect,Ef2)
-             self.Sound.PlaySound(1,30)
+             self.Sound.PlaySound(1,40)
              self.remove()
 
         self.BulletTerm = (self.BulletTerm + gfw.delta_time * 3) % 3

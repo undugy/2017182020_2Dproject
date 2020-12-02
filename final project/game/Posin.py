@@ -1,9 +1,6 @@
 from pico2d import *
 
 import math
-
-
-import CUI
 import gfw
 import random
 import CEffect
@@ -23,7 +20,7 @@ class BigPosin:
         self.Frame = 0
         self.Dist = 0
         self.isDead = False
-        self.Hp = 5000
+        self.Hp = 3000
         self.RadianX, self.PivotY = 50, 50
         self.bisOpen = False
         self.BulletMakeTerm = 0
@@ -51,7 +48,6 @@ class BigPosin:
         self.Frame_Manegement()
         self.Bullet_Make()
         if self.isDead or self.Hp< 0:
-            CUI.Score().Add_Score(random.randint(1500, 2000))
             pEf=CEffect.Effect(self.x + random.randint(-20, 20),self.y + random.randint(-20, 20),128, 128, 200, 200, 9, 1)
             gfw.world.add(gfw.layer.CEffect,pEf)
             self.Sound.PlaySound(random.randint(3,7),40)
@@ -76,7 +72,7 @@ class MiddlePosin:
         self.Frame = 0
         self.Dist = 0
         self.isDead = False
-        self.Hp = 3500
+        self.Hp = 1500
         self.RadianX, self.PivotY = 25, 25
         self.Sound=SoundManagement
         self.Time =0
@@ -122,7 +118,6 @@ class MiddlePosin:
         self.MakeBullet()
         self.Dir_Calculate()
         if self.isDead or self.Hp< 0:
-            CUI.Score().Add_Score(random.randint(1500, 2000))
             pEf2=CEffect.Effect(self.x + random.randint(-20, 20),
              self.y + random.randint(-20, 20),128, 128, 200, 200, 9, 1)
             gfw.world.add(gfw.layer.CEffect,pEf2)
@@ -148,7 +143,7 @@ class SmallPosin:
         self.Frame = 0
         self.Dist = 0
         self.isDead = False
-        self.Hp = 2500
+        self.Hp = 1000
         self.Sound=SoundManagement
         self.RadianX, self.PivotY = 30, 20
         self.BulletTime = 0
@@ -179,7 +174,6 @@ class SmallPosin:
         self.MakeBullet()
         self.Dir_Calculate()
         if self.isDead or self.Hp< 0:
-            CUI.Score().Add_Score(random.randint(500, 1000))
             Sce=CEffect.Effect(self.x + random.randint(-20, 20),
              self.y + random.randint(-20, 20),128, 128, 200, 200, 9, 1)
             gfw.world.add(gfw.layer.CMonsterBullet,Sce)

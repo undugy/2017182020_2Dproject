@@ -62,7 +62,7 @@ class Player_Lager():
       self.LifeTime+=0.1
       self.Frame=(self.Frame+1)%80
       for player in gfw.world.objects_at(gfw.layer.CPlayer):
-         player.Gage -= 5*gfw.delta_time
+         player.Gage -= 5*gfw.delta_time*2
 
       if self.isDead is True or player.Gage <=0:
         for player in gfw.world.objects_at(gfw.layer.CPlayer):

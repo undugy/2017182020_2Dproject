@@ -58,7 +58,7 @@ class Life:
         for n in range(player.Life):
             self.image.draw(660, 10 + 20 * n, 30, 40)
         pass
-
+'''
 class Score:
     image= [None,None,None,None,None]
     def __init__(self):
@@ -121,3 +121,4 @@ class FinalScore:
         for i in range(5):
             self.image2[i].clip_draw(int(self.Index[i]) * 60, 0, 60, 78, 500 + i * 30, 570, 20, 40)
 
+'''
