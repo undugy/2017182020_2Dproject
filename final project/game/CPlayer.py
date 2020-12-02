@@ -14,7 +14,7 @@ class Player():
         self.Interval=0
         self.PlayerState=0
         self.Life = 3
-      
+        self.Sound=SoundManagement
         self.PreLife=self.Life
         self.Gage=0
         self.LagerTime=0
@@ -50,6 +50,7 @@ class Player():
 
             bullet=CBullet.Bullet(self.x,self.y+20)
             gfw.world.add(gfw.layer.CBullet,bullet)
+            
 
     def Make_Hyperion(self):
         if  win32api.GetAsyncKeyState(0x53) & 0x1001 and self.BombNumber >= 1 :  # s:
