@@ -70,7 +70,7 @@ def enter():
     highscore.load()
     
     global  MakeTerm, RedAirPlaneTerm,bisAirPlaneMake,SmallBoss_MakeTerm,SmallBossCnt,MiddleBossCnt,FinalBossCnt,bisMiddleBossDead
-    global Time
+    global Time,BossdeadCnt
     bisAirPlaneMake = True
     MakeTerm=0
     RedAirPlaneTerm =0
@@ -78,6 +78,7 @@ def enter():
     SmallBossCnt = 2
     MiddleBossCnt = 1
     FinalBossCnt = 1
+    BossdeadCnt = 1
     Time = 0
     bisMiddleBossDead = False
 
@@ -123,7 +124,7 @@ def PlayerBullet_Collision():
 def makeTime():
     
     global  MakeTerm, RedAirPlaneTerm,bisAirPlaneMake,SmallBoss_MakeTerm,SmallBossCnt,MiddleBossCnt,FinalBossCnt,bisMiddleBossDead
-    global Time, boss,score, Sound
+    global Time, boss,score, Sound,BossdeadCnt
 
     MakeTerm+=gfw.delta_time * 0.7
     RedAirPlaneTerm += gfw.delta_time * 0.3
@@ -168,10 +169,14 @@ def makeTime():
         gfw.world.add(gfw.layer.Boss,boss)
         bisAirPlaneMake= False
         #for b in gfw.world.objects_at(gfw.layer.Boss):
-
+    if Ship.deadyet and BossdeadCnt>0:
+        Sound.bgm3.stop()
+        Sound.bgm4.repeat_play()
+        BossdeadCnt-=1
+        
     if Ship.checkDead:
         score+=10000
-        Sound.bgm4.stop()
+        
         return True
 
 def update():

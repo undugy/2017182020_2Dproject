@@ -11,7 +11,7 @@ import CBullet
 import Posin
 import CUI
 import SoundManagement
-
+deadyet=False
 checkDead=False
 class BossShip:
     image = None
@@ -93,7 +93,9 @@ class BossShip:
         pass
 
     def BossDead(self):
-        global checkDead
+        global checkDead,deadyet
+        
+         
         if self.DeathCnt >=13 :
             self.DeathSizeX += gfw.delta_time * (137.5/2)
             self.DeathSizeY += (gfw.delta_time * 10)
@@ -105,14 +107,14 @@ class BossShip:
                     self.y + random.randint(int(-100+self.DeathSizeY), int(100-self.DeathSizeY)), 149, 149,
                     250, 250, 32, 8, 0.3)
                 gfw.world.add(gfw.layer.CEffect,DbEf)
-
+                deadyet=True
         if self.LateInit is False and self.DeathSizeX>600:
             
             self.LateInit = True
             checkDead=True
             
     def update(self):
-        global checkDead
+        
         self.BossDead()
         self.InitMove()
         if self.isDead:
