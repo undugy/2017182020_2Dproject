@@ -4,17 +4,21 @@ import win32api
 from gobj import *
 import CBullet
 import CHyperion 
-import SoundManagement
+
 class Player():
+    playertype=0
     def __init__(self):
         self.x, self.y = 0, 90
         self.image = load_image('Resource/Player_T.png')
+        self.image2 = load_image('Resource/Player_T2.png')
+        self.image3 = load_image('Resource/Player_T3.png')
+        self.image4 = load_image('Resource/Player_T4.png')
+        self.image5 = load_image('Resource/Player_T5.png')
         self.Frame=3##speed
         self.Time=0
         self.Interval=0
         self.PlayerState=0
         self.Life = 3
-        self.Sound=SoundManagement
         self.PreLife=self.Life
         self.Gage=0
         self.LagerTime=0
@@ -50,7 +54,7 @@ class Player():
 
             bullet=CBullet.Bullet(self.x,self.y+20)
             gfw.world.add(gfw.layer.CBullet,bullet)
-            
+
 
     def Make_Hyperion(self):
         if  win32api.GetAsyncKeyState(0x53) & 0x1001 and self.BombNumber >= 1 :  # s:
@@ -109,4 +113,17 @@ class Player():
         if self.Frame>=6:
             self.Frame=6
     def draw(self):
+        
+        
+     if Player.playertype==1:
+        self.image5.clip_draw(3*33, 0, 33, 33, self.x, self.y,80,80)
+     elif Player.playertype==2:
+        self.image3.clip_draw(3*33, 0, 33, 33, self.x, self.y,80,80)
+     elif Player.playertype==3:
+        self.image4.clip_draw(3*32, 0, 33, 33, self.x, self.y,80,80)
+     elif Player.playertype==4:
         self.image.clip_draw(3*33, 0, 33, 33, self.x, self.y,80,80)
+        
+     elif Player.playertype==5:
+        self.image2.clip_draw(3*33, 0, 33, 33, self.x, self.y,80,80)
+         

@@ -5,7 +5,7 @@ import title_state
 
 def enter():
     global image, elapsed
-    image = load_image('Reasource/R_Logo.png')
+    image = load_image('Resource/R_Logo.png')
     elapsed = 0
 
 def update():
@@ -16,7 +16,7 @@ def update():
         gfw.change(title_state)
 
 def draw():
-    image.draw(400, 300)
+    image.draw(360, 480,720,960)
 
 def handle_event(e):
     if e.type == SDL_QUIT:

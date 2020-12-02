@@ -36,7 +36,7 @@ def handle_event(e):
                 gfw.quit() 
             elif(e.type,e.key)==(SDL_KEYDOWN,SDLK_r):
                 bgm.stop()
-                gfw.push(title_state)
+                gfw.pop()
             
 
 def exit():

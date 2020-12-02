@@ -2,6 +2,7 @@ import gfw
 from pico2d import *
 import main_state
 Frame=0
+main_state.Ch_num
 def enter():
     global image
     image = load_image('Resource/character.png')

@@ -13,12 +13,12 @@ import CHyperion
 import Posin
 import Ship
 from background import VertScrollBackground
-import title_state
+
 import SoundManagement
 import highscore
 import game_over_state
 
-
+Ch_num=0
 canvas_width = 720
 canvas_height = 960
 STATE_IN_GAME, STATE_GAME_OVER = range(2)
@@ -30,23 +30,26 @@ def end_game():
     Sound.bgm.stop()
     Sound.bgm2.repeat_play()
     highscore.add(score)
+    #gfw.world.clear() 
     gfw.change(game_over_state)
 
+
 def enter():
-    gfw.world.init(['bg','CPlayer','Boss','CBullet','CMonster','CMonsterBullet',
-        'CUI','CEffect','CItem','CLazer','CHyperion'])
-    global player,score,Sound,state
+    gfw.world.init(['bg','CLazer','CPlayer','Boss','CBullet','CMonster','CMonsterBullet',
+        'CUI','CEffect','CItem','CHyperion'])
+    global player,score,Sound,state,Ch_num
     state=STATE_IN_GAME
+    
     player=CPlayer.Player()
-
-
+    CPlayer.Player.playertype=Ch_num
+    gfw.world.add(gfw.layer.CPlayer,player)
     global font
     font = gfw.font.load('Resource/2P.ttf', 20)
 
     Sound=SoundManagement
     Sound.init()
     Sound.bgm.repeat_play()
-    gfw.world.add(gfw.layer.CPlayer,player)
+    
 
     global game_over_image
     game_over_image = gfw.image.load('Resource/GameOver.png')
@@ -111,7 +114,7 @@ def PlayerBullet_Collision():
             Sound.PlaySound(14,40)   
             if player.SuperMode is False:
                 player.IsShield=True
-                #player.Life-=1
+                player.Life-=1
                 Cp=CEffect.Effect(player.x + random.randint(-20, 20),
                     player.y + random.randint(-20, 20), 128, 128,
                                       250, 250, 64, 5,0.3)
