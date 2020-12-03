@@ -18,7 +18,7 @@ class Player():
         self.Time=0
         self.Interval=0
         self.PlayerState=0
-        self.Life = 5
+        self.Life = 3
         self.PreLife=self.Life
         self.Gage=0
         self.LagerTime=0

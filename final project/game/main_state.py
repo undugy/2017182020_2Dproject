@@ -28,7 +28,7 @@ def end_game():
     global state,Sound,score
     state = STATE_GAME_OVER
     Sound.bgm.stop()
-    Sound.bgm2.repeat_play()
+    
     highscore.add(score)
     gfw.world.clear() 
     gfw.change(game_over_state)
