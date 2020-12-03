@@ -1,12 +1,11 @@
 from pico2d import *
 
 def init():
-        global SoundLst,bgm,bgm2,bgm3,bgm4
+        global SoundLst,bgm,bgm3,bgm4
         bgm = load_music('Sound/Stage0.mp3')
         bgm.set_volume(40)
         
-        bgm2 = load_music('Sound/GameOver.mp3')
-        bgm2.set_volume(40)
+        
 
         bgm3 = load_music('Sound/BossStart.mp3')
         bgm3.set_volume(40)
@@ -60,9 +59,9 @@ def PlaySound2(number,volume):
     SoundLst[number].set_volume(volume)
     SoundLst[number].play()
 def Delete_AllList():
-    global SoundLst,bgm,bgm2,bgm3,bgm4
+    global SoundLst,bgm,bgm3,bgm4
     del bgm
-    del bgm2
+    
     del bgm3
     del bgm4
     for Object in SoundLst:
