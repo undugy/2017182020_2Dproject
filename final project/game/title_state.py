@@ -2,8 +2,9 @@ import gfw
 from pico2d import *
 import main_state
 Frame=0
-main_state.Ch_num
+Music=1
 def enter():
+  
     global image
     image = load_image('Resource/character.png')
     global bgm
@@ -11,26 +12,31 @@ def enter():
     bgm.set_volume(40)
     bgm.repeat_play()
 def update():
-    global Frame
+    global Frame,Music,bgm
     if(Frame<0):
-        Frame=5
-    elif(Frame>5):
+        Frame=4
+    elif(Frame>4):
         Frame=0
+    if Music>0:
+       bgm.repeat_play()
+       Music-=1
 
 def draw():
     clear_canvas()
     image.clip_draw(Frame*800,0,800,900,360,480,720,960)
     update_canvas()  
 def handle_event(e):
-        global Frame,bgm
+        global Frame,ch,Music
         if e.type==SDL_QUIT:
             gfw.quit()
         else:
             if(e.type, e.key)==(SDL_KEYDOWN,SDLK_ESCAPE):
                 gfw.quit()
             elif(e.type,e.key)==(SDL_KEYDOWN,SDLK_SPACE):
-                bgm.stop()
+                main_state.Ch_num=Frame+1
                 gfw.push(main_state)
+                Music+=1
+                
             elif(e.type, e.key)==(SDL_KEYDOWN,SDLK_RIGHT):
                 Frame+=1
             elif (e.type, e.key) == (SDL_KEYDOWN, SDLK_LEFT):
@@ -39,7 +45,7 @@ def handle_event(e):
 def exit():
     global image,bgm
     del image
-    del bgm
+    
 
 def pause():
     pass

@@ -30,12 +30,12 @@ def end_game():
     Sound.bgm.stop()
     Sound.bgm2.repeat_play()
     highscore.add(score)
-    #gfw.world.clear() 
+    gfw.world.clear() 
     gfw.change(game_over_state)
 
 
 def enter():
-    gfw.world.init(['bg','CLazer','CPlayer','Boss','CBullet','CMonster','CMonsterBullet',
+    gfw.world.init(['bg','Boss','CLazer','CPlayer','CBullet','CMonster','CMonsterBullet',
         'CUI','CEffect','CItem','CHyperion'])
     global player,score,Sound,state,Ch_num
     state=STATE_IN_GAME
@@ -179,7 +179,8 @@ def makeTime():
         
     if Ship.checkDead:
         score+=10000
-        
+        Ship.checkDead=False
+        Ship.deadyet=False
         return True
 
 def update():
