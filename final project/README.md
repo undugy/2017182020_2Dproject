@@ -176,3 +176,12 @@ UI | 스킬,궁극기 게이지 현황 표시, 스코어, 스테이트 구현 | 
 title_state로 이동 : r
 
 게임종료: esc
+
+# 동영상링크
+
+*1차발표: https://youtu.be/NhXoTjl1cSw
+
+*2차 발표: https://youtu.be/k6WWpyQBHXw
+
+*최종 발표: https://youtu.be/sqpv9f0mkcU
+
