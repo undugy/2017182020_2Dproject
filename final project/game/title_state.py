@@ -45,7 +45,7 @@ def handle_event(e):
 def exit():
     global image,bgm
     del image
-    
+    del bgm
 
 def pause():
     pass

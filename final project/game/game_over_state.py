@@ -40,8 +40,9 @@ def handle_event(e):
             
 
 def exit():
-    global bgm
+    global bgm, game_over_image
     del bgm
+    del game_over_image
     pass
 
 def pause():
